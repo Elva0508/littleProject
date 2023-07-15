@@ -1,9 +1,10 @@
 <?php include("css.php") ?>
 <?php include("js.php") ?>
+<?php session_start(); ?>
 <div class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark d-flex justify-content-between">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="home.php"><i class="fa-solid fa-cat"></i>  小貓兩三隻</a>
+        <a class="navbar-brand ps-3" href="home.php"><i class="fa-solid fa-cat"></i> 小貓兩三隻</a>
 
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
@@ -51,7 +52,7 @@
 
 
         <div id="layoutSidenav_content">
-            <?php include("") ?>
+            <?php include("../vendorUsers/editHomepage.php") ?>
         </div>
     </div>
 </div>

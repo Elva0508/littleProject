@@ -1,3 +1,6 @@
+<?php
+session_start();
+include("../pet_back/dashboard_back_login.php") ?>
 <!doctype html>
 <html lang="en">
 
@@ -51,7 +54,6 @@
                         <input type="password" class=" form-control" id="rePassword" placeholder="請再次輸入密碼">
                         <div class=" m-1"><span class="submitAlert text-danger">
                                 <?php
-                                session_start();
                                 // 检查是否有错误消息
                                 if (isset($_SESSION['signup_error'])) {
                                     $error_message = $_SESSION['signup_error'];
@@ -73,10 +75,10 @@
         </div>
     </div>
     <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-    </script>
+    </script> -->
     <script>
         function checkUser() {
             var account = document.getElementById('account').value;

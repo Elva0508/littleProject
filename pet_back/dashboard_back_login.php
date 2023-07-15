@@ -21,6 +21,6 @@
     </nav>
 
     <div id="layoutSidenav">
-        <?php include("") ?>
+
     </div>
 </div>
