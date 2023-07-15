@@ -1,3 +1,6 @@
+<?php
+session_start();
+include("../pet_back/dashboard_back_login.php") ?>
 <!doctype html>
 <html lang="en">
 
@@ -22,7 +25,8 @@
             width: 200px;
             height: 50px;
         }
-        .btns{
+
+        .btns {
             margin-top: 30px;
         }
     </style>
@@ -42,7 +46,6 @@
                     <input type="password" name="password" class="password form-control" id="password" placeholder="請輸入密碼">
                     <div class="submitAlert mb-3">
                         <?php
-                        session_start();
 
                         // 检查是否有错误消息
                         if (isset($_SESSION['login_error'])) {
@@ -65,11 +68,11 @@
         </div>
     </div>
     <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-    </script>
+    </script> -->
     <script>
         function checkSubmit(event) {
             event.preventDefault();

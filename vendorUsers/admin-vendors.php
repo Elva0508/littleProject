@@ -95,7 +95,7 @@ if ($infoNum == 20) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Tables</title>
+  <title>廠商會員管理</title>
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -119,9 +119,9 @@ if ($infoNum == 20) {
       <div class="container-fluid">
 
         <!-- DataTales Example -->
-        <div class="card shadow mb-4">
+        <div class="card shadow my-4">
           <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            <h4 class="m-0 font-weight-bold text-primary">廠商會員總覽</h4>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -218,7 +218,7 @@ if ($infoNum == 20) {
                     </tr>
                   </tfoot>
                   <form action="vendorDlt.php" method="GET">
-                    <button class="dltBtn btn btn-dark">刪除</button>
+                    <button class="dltBtn btn btn-dark mb-2">刪除</button>
                     <tbody>
                       <?php
                       while ($row = $result->fetch_assoc()) {
