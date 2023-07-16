@@ -152,28 +152,6 @@
         </form>
     </div>
 
-    $sql = "SELECT products.*, category.category_name, subcategory.subcategory_name
-    FROM products
-    JOIN category ON category.category_id = products.category_id
-    JOIN subcategory ON subcategory.subcategory_id = products.subcategory_id
-    WHERE products.product_id $orderBy
-    LIMIT $startItem, $perPage";
-
-    $result = $conn->query($sql);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
@@ -183,3 +161,166 @@
 </body>
 
 </html>
+
+<?php
+if (isset($_GET["name"])) {
+    $name = $_GET["name"];
+}
+
+$sql = "SELECT products.*, category.category_name AS category_name, subcategory.subcategory_name AS subcategory_name
+FROM products
+JOIN category ON category.category_id = products.category_id
+JOIN subcategory ON subcategory.subcategory_id = products.subcategory_id
+WHERE 1=1";
+
+// 商品名稱
+if (isset($_GET["product_name"]) && !empty($_GET["product_name"])) {
+    $product_name = $_GET["product_name"];
+    $sql .= " AND product_name LIKE '%" . $product_name . "%'";
+}
+
+// 分類
+if (isset($_GET["category_name"]) && !empty($_GET["category_name"])) {
+    $category_name = $_GET["category_name"];
+    $sql .= " AND category_name = '" . $category_name . "'";
+}
+
+// sub分類
+if (isset($_GET["subcategory_name"]) && !empty($_GET["subcategory_name"])) {
+    $subcategory_name = $_GET["subcategory_name"];
+    $sql .= " AND subcategory_name = '" . $subcategory_name . "'";
+}
+
+// min價錢篩選
+if (isset($_GET["minPrice"]) && !empty($_GET["minPrice"])) {
+    $minPrice = $_GET["minPrice"];
+    $sql .= " AND price > " . $minPrice;
+}
+
+// max價錢篩選
+if (isset($_GET["maxPrice"]) && !empty($_GET["maxPrice"])) {
+    $maxPrice = $_GET["maxPrice"];
+    $sql .= " AND price < " . $maxPrice;
+}
+
+// min售價篩選
+if (isset($_GET["minSpecialPrice"]) && !empty($_GET["minSpecialPrice"])) {
+    $minSpecialPrice = $_GET["minSpecialPrice"];
+    $sql .= " AND specialoffer > " . $minSpecialPrice;
+}
+
+// max售價篩選
+if (isset($_GET["maxSpecialPrice"]) && !empty($_GET["maxSpecialPrice"])) {
+    $maxSpecialPrice = $_GET["maxSpecialPrice"];
+    $sql .= " AND specialoffer < " . $maxSpecialPrice;
+}
+
+// min商品數量
+if (isset($_GET["minCount"]) && !empty($_GET["minCount"])) {
+    $minCount = $_GET["minCount"];
+    $sql .= " AND quantity > " . $minCount;
+}
+
+// max商品數量
+if (isset($_GET["maxCount"]) && !empty($_GET["maxCount"])) {
+    $maxCount = $_GET["maxCount"];
+    $sql .= " AND quantity < " . $maxCount;
+}
+
+// min售出數量
+if (isset($_GET["minSellCount"]) && !empty($_GET["minSellCount"])) {
+    $minSellCount = $_GET["minSellCount"];
+    $sql .= " AND sold > " . $minSellCount;
+}
+
+// max售出數量
+if (isset($_GET["maxSellCount"]) && !empty($_GET["maxSellCount"])) {
+    $maxSellCount = $_GET["maxSellCount"];
+    $sql .= " AND sold < " . $maxSellCount;
+}
+
+require_once("db_connect.php");
+$result = $conn->query($sql);
+
+$product_count = $result->num_rows;
+$perPage = 10;
+$page = isset($_GET["page"]) ? $_GET["page"] : 1;
+$startItem = ($page - 1) * $perPage;
+$totalPage = ceil($product_count / $perPage);
+
+$type = isset($_GET["type"]) ? $_GET["type"] : 1;
+
+if ($type == 1) {
+    $orderBy = "product_id ASC";
+} elseif ($type == 2) {
+    $orderBy = "product_id DESC";
+} elseif ($type == 3) {
+    $orderBy = "price ASC";
+} elseif ($type == 4) {
+    $orderBy = "price DESC";
+} elseif ($type == 5) {
+    $orderBy = "specialoffer ASC";
+} elseif ($type == 6) {
+    $orderBy = "specialoffer DESC";
+} elseif ($type == 7) {
+    $orderBy = "quantity ASC";
+} elseif ($type == 8) {
+    $orderBy = "quantity DESC";
+} elseif ($type == 9) {
+    $orderBy = "sold ASC";
+} elseif ($type == 10) {
+    $orderBy = "sold DESC";
+} else {
+    header("location: 404.php");
+}
+
+$sql .= " ORDER BY " . $orderBy . " LIMIT " . $startItem . ", " . $perPage;
+$result = $conn->query($sql);
+$rows = $result->fetch_all(MYSQLI_ASSOC);
+?>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>我的商品</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        th {
+            white-space: nowrap;
+        }
+
+        .dash {
+
+            text-align: center;
+            align-items: center;
+        }
+
+        .ratio {
+            width: 250px;
+            height: 250px;
+        }
+
+        .object-fit-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>我的商品</h1>
+        <form class="row g-3 p-2" action="product-search.php">
+            <div class="col-12 mb-3 ">
+                <label for="inputname" class="form-label">商品名稱</label>
+                <input type="text" class="form-control" id="inputname" placeholder="請輸

@@ -1,9 +1,7 @@
 <?php
-
 if (!isset($_POST["product_name"])) {
     die("請依正常管道到此頁");
 }
-
 
 require_once("db_connect.php");
 
@@ -25,15 +23,11 @@ $sold = 0; // 假設 sold 的值為 0
 $created_at = date('Y-m-d H:i:s'); //此為時間，必須設為時間格式
 $updated_at = date('Y-m-d H:i:s');
 
-
 $sql = "INSERT INTO products (product_name, category_id, subcategory_id, description, price, specialoffer, quantity, image, vendor_id, sold, created_at, updated_at) VALUES ('$product_name', '$category_id', '$subcategory_id','$description', '$price', '$specialoffer', '$quantity', '$image', '$vendor_id', '$sold', '$created_at', '$updated_at')";
-
-
-// echo $sql;
 
 if ($conn->query($sql) === TRUE) {
     $latestId = $conn->insert_id;
-    echo "資料表 products 新增資料完成,id為$latestId";
+    echo "資料表 products 新增資料完成，id為 $latestId";
     header("location: product-list.php");
 } else {
     echo "新增資料錯誤: " . $conn->error;
