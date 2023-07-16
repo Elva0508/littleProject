@@ -100,7 +100,6 @@ var_dump($cateSbRows);
             <th scope="row"><?=$subCATE["subcategory_id"]?></th>
             <td><?=$subCATE["subcategory_name"]?></td>
             <td>
-            <!-- <?=$subCATE["valid"]?> -->
               <?php if($subCATE["valid"] == "1"){
                 echo" 顯示";
               }elseif($subCATE["valid"] == "0"){

@@ -6,7 +6,7 @@ $sqlCategory = "SELECT * FROM category ";
 $resultCategory = $conn->query($sqlCategory);
 $cateMainRows = $resultCategory->fetch_all(MYSQLI_ASSOC);
 
-var_dump($cateMainRows);
+//var_dump($cateMainRows);
 ?>
 
 <!doctype html>
@@ -46,7 +46,6 @@ var_dump($cateMainRows);
                     <div class="form-group mb-2">
                         <label for="exampleFormControlSelect1">主類別</label>
                         <select class="form-select" aria-label="Default select example" name="maincategory">
-                            <!-- <option selected>請選擇</option> -->
                             <?php foreach($cateMainRows as $mainCATE): ?>
                             <option value="<?=$mainCATE["category_id"] ?>">
                                <?=$mainCATE["category_name"] ?>
