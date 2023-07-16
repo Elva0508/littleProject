@@ -14,7 +14,7 @@ WHERE s.subcategory_id = $id
 $resultCateE = $conn->query($sql);
 $rowCateE = $resultCateE->fetch_all(MYSQLI_ASSOC);
 
-var_dump($rowCateE);
+//var_dump($rowCateE);
 echo "<br>";
 
 
@@ -22,7 +22,7 @@ $sqlCategory = "SELECT * FROM category ";
 $resultCategory = $conn->query($sqlCategory);
 $cateMainRows = $resultCategory->fetch_all(MYSQLI_ASSOC);
 
-var_dump($cateMainRows);
+//var_dump($cateMainRows);
 
 ?>
 
@@ -68,15 +68,14 @@ var_dump($cateMainRows);
                     
                     <div class="form-group mb-2">
                         <label class="" for="exampleFormControlInput1">狀態</label>
-                        <select class="form-select" aria-label="Default select example" name="staticcategory">
-                            <?php if($row["valid"] == "1"){
-                                
-                            } ?>
-                                <option value="<?=$row["valid"]?>">
-                               <?php if($row["valid"] == "1")echo" 顯示"?>
-                              </option>
+                        <select class="form-select" aria-label="Default select example" name="valid">
+                              <?php 
+                              $selectedOne = ($row["valid"] == 1)?"selected" : "";
+                              $selectedZero = ($row["valid"] == 0)?"selected" : "";
+                              ?> 
+                                <option <?=$selectedOne ?> value="1">顯示</option>
+                                <option <?=$selectedZero ?> value="0">隱藏</option>
                       
-                        <!-- <input type="text" value="<?=$row["valid"]?>" class="form-control" id="exampleFormControlInput1" name="valid"> -->
                         </select>
                     </div>
                     
