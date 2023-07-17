@@ -9,9 +9,21 @@ require_once("db_connect.php");
 
 $product_id = $_GET["product_id"];
 
-$sql = "SELECT * FROM products WHERE product_id='$product_id'";
+$sql = "SELECT products.*, category.category_name AS category_name, subcategory.subcategory_name AS subcategory_name
+FROM products
+JOIN category ON category.category_id = products.category_id
+JOIN subcategory ON subcategory.subcategory_id = products.subcategory_id
+WHERE product_id='$product_id'";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
+
+// 新增
+$sqlCategory = "SELECT category_id, category_name FROM category";
+$resultCategory = $conn->query($sqlCategory);
+
+$sqlSubcategory = "SELECT subcategory_id, subcategory_name FROM subcategory";
+$resultSubcategory = $conn->query($sqlSubcategory);
+// 新增结束
 
 if (isset($_SESSION["update_success"]) && $_SESSION["update_success"]) {
     // echo "更新成功！";
@@ -25,7 +37,7 @@ $conn->close();
 <html lang="en">
 
 <head>
-    <title>product</title>
+    <title>商品編輯</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -55,8 +67,8 @@ $conn->close();
         <div class="py-2">
             <a class="btn btn-primary" href="product.php?product_id=<?= $row["product_id"] ?>">回我的商品</a>
         </div>
-        <form action="doProductUpdate.php" method="post">
-            <table class="table table-bordered ">
+        <form action="doProductUpdate.php" method="post" enctype="multipart/form-data">
+            <table class=" table table-bordered">
                 <tr>
                     <td colspan="2">
                         <h3>第<?= $row["product_id"] ?>項商品</h3>
@@ -66,10 +78,10 @@ $conn->close();
                 <tr>
                     <th>商品圖片</th>
                     <td>
-                        <figure class="ratio ratio-1x1 ">
+                        <figure class="ratio ratio-1x1">
                             <img class="object-fit-cover" src="productimages/<?= $row["image"] ?>" alt="">
                         </figure>
-                        <input class="form-control " type="file" name="image">
+                        <input class="form-control" type="file" name="image">
                     </td>
                 </tr>
                 <tr>
@@ -80,36 +92,61 @@ $conn->close();
                 </tr>
                 <tr>
                     <th>分類</th>
-                    <td><input type="text" class="form-control" value="<?= $row["category_id"] ?>" name="category_id"></td>
+                    <td>
+                        <select id="inputCategory" class="form-select" name="category_id">
+                            <?php
+                            while ($rowCategory = $resultCategory->fetch_assoc()) {
+                                $selected = ($rowCategory["category_id"] == $row["category_id"]) ? "selected" : "";
+                                echo "<option value='" . $rowCategory["category_id"] . "' " . $selected . ">" . $rowCategory["category_name"] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <th>類別</th>
-                    <td><input type="text" class="form-control" value="<?= $row["subcategory_id"] ?>" name="subcategory_id"></td>
+                    <td>
+                        <select id="inputSubcategory" class="form-select" name="subcategory_id">
+                            <?php
+                            while ($rowSubcategory = $resultSubcategory->fetch_assoc()) {
+                                $selected = ($rowSubcategory["subcategory_id"] == $row["subcategory_id"]) ? "selected" : "";
+                                echo "<option value='" . $rowSubcategory["subcategory_id"] . "' " . $selected . ">" . $rowSubcategory["subcategory_name"] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <th>價錢</th>
-                    <td class="d-flex align-items-center"> <span>$</span>
+                    <td class="d-flex align-items-center">
+                        <span>$</span>
                         <input type="text" class="form-control" value="<?= $row["price"] ?>" name="price">
                     </td>
                 </tr>
                 <tr>
                     <th>售價</th>
-                    <td class="d-flex align-items-center"><span>$</span>
+                    <td class="d-flex align-items-center">
+                        <span>$</span>
                         <input type="text" class="form-control" value="<?= $row["specialoffer"] ?>" name="specialoffer">
                     </td>
                 </tr>
                 <tr>
                     <th>庫存數量</th>
-                    <td><input type="text" class="form-control" value="<?= $row["quantity"] ?>" name="quantity"></td>
+                    <td>
+                        <input type="text" class="form-control" value="<?= $row["quantity"] ?>" name="quantity">
+                    </td>
                 </tr>
                 <tr>
                     <th>月銷售量</th>
-                    <td><input type="text" class="form-control" value="<?= $row["sold"] ?>" name="sold"></td>
+                    <td>
+                        <input type="text" class="form-control" value="<?= $row["sold"] ?>" name="sold">
+                    </td>
                 </tr>
                 <tr>
                     <th>商品介紹</th>
-                    <td><input type="text" class="form-control" value="<?= $row["description"] ?>" name="description"></td>
-
+                    <td>
+                        <input type="text" class="form-control" value="<?= $row["description"] ?>" name="description">
+                    </td>
                 </tr>
                 <tr>
                     <th>新增時間</th>
@@ -119,7 +156,6 @@ $conn->close();
                     <th>更新時間</th>
                     <td><?php echo date('Y-m-d H:i:s') ?></td>
                 </tr>
-
             </table>
             <div class="py-2">
                 <button class="btn btn-info" type="submit">儲存</button>
@@ -127,4 +163,5 @@ $conn->close();
         </form>
     </div>
 
-    
+    <!-- Bootstrap JavaScript Libraries -->
+  

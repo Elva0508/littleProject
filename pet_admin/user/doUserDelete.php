@@ -3,7 +3,7 @@
 if(!isset($_GET["id"])){
    die("無法作業"); 
 }
-require_once("../db_connect1.php");
+require_once("db_connect1.php");
 
 $id=$_GET["id"];
 

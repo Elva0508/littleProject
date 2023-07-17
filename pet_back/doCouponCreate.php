@@ -1,7 +1,7 @@
 <?php
 
 
-require_once("../db_connect1.php");
+require_once("db_connect1.php");
 
 $coupon_code=$_POST["coupon_code"];
 $discount=$_POST["discount"];

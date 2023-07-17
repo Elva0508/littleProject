@@ -7,7 +7,11 @@ require_once("db_connect.php");
 
 $product_id = $_GET["product_id"];
 
-$sql = "SELECT * FROM products WHERE product_id = '$product_id' ";
+$sql = "SELECT products.*, category.category_name AS category_name, subcategory.subcategory_name AS subcategory_name
+FROM products
+JOIN category ON category.category_id = products.category_id
+JOIN subcategory ON subcategory.subcategory_id = products.subcategory_id
+WHERE product_id = '$product_id' ";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 // var_dump($row);
@@ -26,7 +30,6 @@ $row = $result->fetch_assoc();
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
     <style>
         .ratio {
             width: 250px;
@@ -43,7 +46,7 @@ $row = $result->fetch_assoc();
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <h1>商品介紹</h1>
         <div class="py-2">
             <a class="btn btn-primary" href="product-list.php">回我的商品列表</a>
@@ -69,12 +72,12 @@ $row = $result->fetch_assoc();
             </tr>
             <tr>
                 <th>分類</th>
-                <td><?= $row["category_id"] ?></td>
+                <td><?= $row["category_name"] ?></td>
 
             </tr>
             <tr>
                 <th>類別</th>
-                <td><?= $row["subcategory_id"] ?></td>
+                <td><?= $row["subcategory_name"] ?></td>
             </tr>
             <tr>
                 <th>價錢</th>
@@ -122,7 +125,8 @@ $row = $result->fetch_assoc();
 
 
 
-   
+    <!-- Bootstrap JavaScript Libraries -->
+  
 </body>
 
 </html>

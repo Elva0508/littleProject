@@ -12,7 +12,7 @@ $pet_number=$_POST["pet_number"];
 $updated_at=$_POST["updated_at"];
 $now=date('Y-m-d H:i:s');
 
-require_once("../db_connect1.php");//檢查連線
+require_once("db_connect1.php");//檢查連線
 
 
 $sql="UPDATE userinfo SET name='$name',gender='$gender',phone='$phone',address='$address',birthday='$birthday',email='$email',level_id='$level_id',pet_number='$pet_number',updated_at='$now' WHERE user_id=$id";

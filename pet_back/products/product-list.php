@@ -47,10 +47,7 @@ JOIN category ON category.category_id = products.category_id
 JOIN subcategory ON subcategory.subcategory_id = products.subcategory_id
 WHERE products.product_id $orderBy
 LIMIT $startItem, $perPage";
-
 $result = $conn->query($sql);
-
-
 
 ?>
 
@@ -67,7 +64,6 @@ $result = $conn->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
     <style>
         th {
             white-space: nowrap;
@@ -101,7 +97,7 @@ $result = $conn->query($sql);
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <h1>我的商品</h1>
         <form class="row g-3 p-2" action="product-search.php">
 
@@ -113,27 +109,40 @@ $result = $conn->query($sql);
 
             <div class="col-md-6">
                 <label for="inputCategory" class="form-label">分類</label>
-                <select id="inputCategory" class="form-select">
-                    <option selected>Choose...</option>
-
-                    <option><?= $row["category_name"] ?></option>
+                <select id="inputCategory" class="form-select" name="category_name">
+                    <option selected></option>
+                    <?php
+                    $sqlCategory = "SELECT category_name FROM category";
+                    $resultCategory = $conn->query($sqlCategory);
+                    while ($rowCategory = $resultCategory->fetch_assoc()) {
+                        echo "<option>" . $rowCategory["category_name"] . "</option>";
+                    }
+                    ?>
                 </select>
             </div>
+
 
             <div class="col-md-6">
                 <label for="inputsubCategory" class="form-label">類別</label>
-                <select id="inputCategory" class="form-select">
-                    <option selected>Choose...</option>
-                    <option><?= $row["subcategory_name"] ?></option>
+                <select id="inputsubCategory" class="form-select" name="subcategory_name">
+                    <option selected></option>
+                    <?php
+                    $sqlSubcategory = "SELECT subcategory_name FROM subcategory";
+                    $resultSubcategory = $conn->query($sqlSubcategory);
+                    while ($rowSubcategory = $resultSubcategory->fetch_assoc()) {
+                        echo "<option>" . $rowSubcategory["subcategory_name"] . "</option>";
+                    }
+                    ?>
                 </select>
             </div>
 
 
+
             <div class="col-md-6">
-                <label for="inputprice" class="form-label">價錢篩選</label>
+                <label for="inputprice" class="form-label">價錢</label>
                 <div class="row col-md">
                     <div class="col-md-5">
-                        <input type="number" class="form-control" name="min" value="">
+                        <input type="number" class="form-control" name="minPrice" value="">
                     </div>
 
                     <div class="col-md dash">
@@ -141,15 +150,15 @@ $result = $conn->query($sql);
                     </div>
 
                     <div class="col-md-5">
-                        <input type="number" class="form-control" name="max" value="">
+                        <input type="number" class="form-control" name="maxPrice" value="">
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <label for="inputprice" class="form-label">售價篩選</label>
+                <label for="inputprice" class="form-label">售價</label>
                 <div class="row col-md">
                     <div class="col-md-5">
-                        <input type="number" class="form-control" name="min" value="">
+                        <input type="number" class="form-control" name="minSpecialPrice" value="">
                     </div>
 
                     <div class="col-md dash">
@@ -157,15 +166,15 @@ $result = $conn->query($sql);
                     </div>
 
                     <div class="col-md-5">
-                        <input type="number" class="form-control" name="max" value="">
+                        <input type="number" class="form-control" name="maxSpecialPrice" value="">
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <label for="inputquantity" class="form-label">商品數量</label>
+                <label for="inputquantity" class="form-label">庫存數量</label>
                 <div class="row col-md">
                     <div class="col-md-5">
-                        <input type="number" class="form-control" name="min" value="">
+                        <input type="number" class="form-control" name="minCount" value="">
                     </div>
 
                     <div class="col-md dash">
@@ -173,16 +182,16 @@ $result = $conn->query($sql);
                     </div>
 
                     <div class="col-md-5">
-                        <input type="number" class="form-control" name="max" value="">
+                        <input type="number" class="form-control" name="maxCount" value="">
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
-                <label for="inputsold" class="form-label">售出數量</label>
+                <label for="inputsold" class="form-label">月銷售量</label>
                 <div class="row col-md">
                     <div class="col-md-5">
-                        <input type="number" class="form-control" name="min" value="">
+                        <input type="number" class="form-control" name="minSellCount" value="">
                     </div>
 
                     <div class="col-md dash">
@@ -190,7 +199,7 @@ $result = $conn->query($sql);
                     </div>
 
                     <div class="col-md-5">
-                        <input type="number" class="form-control" name="max" value="">
+                        <input type="number" class="form-control" name="maxSellCount" value="">
                     </div>
                 </div>
             </div>
@@ -213,7 +222,7 @@ $result = $conn->query($sql);
                 <?php
                 $products_count = $result->num_rows;
                 ?>
-                共<?= $totalProduct ?> 件商品，第 <?= $page ?> 頁
+                共<?= $totalProduct ?> 件商品，共 <?= $totalPage ?> 頁，第 <?= $page ?> 頁
 
             </div>
 
@@ -325,7 +334,8 @@ $result = $conn->query($sql);
 
     </div>
 
- 
+    <!-- Bootstrap JavaScript Libraries -->
+   
 </body>
 
 </html>

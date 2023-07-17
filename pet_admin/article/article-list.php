@@ -3,9 +3,14 @@ require_once("db_connect.php");
 
 $page = $_GET["page"] ?? 1;
 $type = $_GET["type"] ?? 1;
-$category = $_GET["category"] ?? 1;
+$category = $_GET["category"] ?? -1;
 
-$sqlTotal = "SELECT id FROM article";
+if ($category == -1) {
+    $sqlTotal = "SELECT id FROM article WHERE valid = 1";
+} else {
+    $sqlTotal = "SELECT id FROM article WHERE valid = 1 AND category = $category";
+}
+
 $resultTotal = $conn->query($sqlTotal);
 $totalArticle = $resultTotal->num_rows;
 
@@ -14,27 +19,27 @@ $startItem = ($page - 1) * $perPage;
 $totalPage = ceil($totalArticle / $perPage);
 
 
-$sql = "SELECT article.id, article.title, article.abstract, article.published_date, article.created_date, article_category.name
-FROM article 
+$sql = "SELECT article.id AS article_id , article.title, article.abstract, article.published_date, article.created_date, article.category, article_category.name AS category_name
 JOIN article_category ON article.category = article_category.id
 ORDER BY id ASC LIMIT $startItem, $perPage";
 
 
 if ($type == 1) {
-    $sql = "SELECT article.id, article.title, article.abstract, article.published_date, article.created_date, article_category.name 
-    FROM article 
-    JOIN article_category ON article.category = article_category.id
-    WHERE valid = 1 
-    ORDER BY article.created_date 
-    ASC LIMIT $startItem, $perPage
-    ";
+    $sql  = "SELECT article.id AS article_id, article.title, article.abstract, article.published_date, article.created_date, article_category.name AS category_name
+            FROM article 
+            JOIN article_category ON article.category = article_category.id
+            WHERE valid = 1 
+            ORDER BY article.created_date ASC 
+            LIMIT $startItem, $perPage";
+    $Orderby = 'ASC';
 } else if ($type == 2) {
-    $sql = "SELECT article.id, article.title, article.abstract, article.published_date, article.created_date, article_category.name 
-    FROM article 
-    JOIN article_category ON article.category = article_category.id
-    WHERE valid = 1 
-    ORDER BY article.created_date 
-    DESC LIMIT $startItem, $perPage";
+    $sql  = "SELECT article.id AS article_id, article.title, article.abstract, article.published_date, article.created_date, article_category.name AS category_name
+            FROM article 
+            JOIN article_category ON article.category = article_category.id
+            WHERE valid = 1 
+            ORDER BY article.created_date DESC 
+            LIMIT $startItem, $perPage";
+    $Orderby = 'DESC';
 } else {
     header("location:../404.php");
 }
@@ -45,32 +50,42 @@ $sqlCategory = "SELECT * FROM article_category ORDER BY id ASC";
 $resultCate = $conn->query($sqlCategory);
 $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
 
-if ($category == 1) {
-    $sqlCategory = "SELECT article.id, article.title, article.abstract, article.published_date, article.created_date, article_category.name 
+
+if ($category == -1) {
+    $sql = "SELECT article.id AS article_id, article.title , article.abstract, article.published_date, article.created_date, article_category.name AS category_name
+    FROM article 
+    JOIN article_category ON article.category = article_category.id
+    WHERE valid = 1 
+    ORDER BY article.created_date $Orderby
+    LIMIT $startItem, $perPage
+    ";
+    }else if($category == 1) {
+    $sql = "SELECT article.id AS article_id, article.title , article.abstract, article.published_date, article.created_date, article_category.name AS category_name
     FROM article 
     JOIN article_category ON article.category = article_category.id
     WHERE valid = 1 AND article.category = 1 
-    ORDER BY article.created_date 
-    ASC LIMIT $startItem, $perPage
+    ORDER BY article.created_date $Orderby
+    LIMIT $startItem, $perPage
     ";
 } else if ($category == 2) {
-    $sqlCategory = "SELECT article.id, article.title, article.abstract, article.published_date, article.created_date, article_category.name 
+    $sql = "SELECT article.id AS article_id, article.title , article.abstract, article.published_date, article.created_date, article_category.name AS category_name
     FROM article 
     JOIN article_category ON article.category = article_category.id
     WHERE valid = 1 AND article.category = 2 
-    ORDER BY article.created_date 
-    ASC LIMIT $startItem, $perPage
+    ORDER BY article.created_date $Orderby
+    LIMIT $startItem, $perPage
     ";
+
 } else if ($category == 3) {
-    $sqlCategory = "SELECT article.id, article.title, article.abstract, article.published_date, article.created_date, article_category.name 
+    $sql = "SELECT article.id AS article_id, article.title , article.abstract, article.published_date, article.created_date, article_category.name AS category_name
     FROM article 
     JOIN article_category ON article.category = article_category.id
-    WHERE valid = 1 AND article.category = 3
-    ORDER BY article.created_date 
-    ASC LIMIT $startItem, $perPage
+    WHERE valid = 1 AND article.category = 3 
+    ORDER BY article.created_date $Orderby
+    LIMIT $startItem, $perPage
     ";
 } else {
-    header("article-list.php");
+    header("Location:article-list.php");
     exit;
 }
 
@@ -93,7 +108,6 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="../css.php">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    
 </head>
 
 <body>
@@ -112,16 +126,15 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                     ?>" aria-current="page" href="article-list.php?type=<?= $type ?>">全部</a>
                         </li>
                         <?php foreach ($cateRows as $category) : ?>
-                            <li class="nav-item">
-                                <a class="nav-link 
-                        <?php
-                            if (isset(
-                                $_GET["category"]
-                            ) && $_GET["category"] == $category["id"]) echo "active";
-
-                        ?>" href="article-list.php?category=<?= $category["id"] ?>&type=<?= $type ?>"><?= $category["name"] ?></a>
-                            </li>
-                        <?php endforeach; ?>
+    <li class="nav-item">
+        <a class="nav-link 
+        <?php
+        if (isset($_GET["category"]) && $_GET["category"] == $category["id"]) echo "active";
+        ?>" href="article-list.php?page=<?= $page ?>&category=<?= $category["id"] ?>&type=<?= $type ?>">
+            <?= $category["name"] ?>
+        </a>
+    </li>
+<?php endforeach; ?>
                     </ul>
                 </form>
             </div>
@@ -141,12 +154,12 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
             <form action="article-list.php">
                 <div class="py-2 d-flex justify-content-end">
                     <div class="btn-group">
-                        <a href="article-list.php?page=<?= $page ?>&type=1" class="btn btn-warning border <?php
+                        <a href="article-list.php?page=<?= $page ?>&type=1&category=<?= isset($_GET["category"]) ? $_GET["category"] : -1 ?>" class="btn btn-warning border <?php
                                                                                                             if ($type == 1) echo "active";
-                                                                                                            ?>">舊到新 <i class="fa-sharp fa-solid fa-sort-down"></i></a>
-                        <a href="article-list.php?page=<?= $page ?>&type=2" class="btn btn-warning border <?php
+                                                                                                            ?>">舊到新 </a>
+                        <a href="article-list.php?page=<?= $page ?>&type=2&category=<?= isset($_GET["category"]) ? $_GET["category"] : -1 ?>" class="btn btn-warning border <?php
                                                                                                             if ($type == 2) echo "active";
-                                                                                                            ?>">新到舊 <i class="fa-sharp fa-solid fa-sort-up"></i></a>
+                                                                                                            ?>">新到舊 </a>
                     </div>
 
                 </div>
@@ -167,14 +180,14 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
             <tbody>
                 <?php foreach ($rows as $row) : ?>
                     <tr>
-                        <td><?= $row["id"] ?></td>
-                        <td><?= $row["name"] ?></td>
+                        <td><?= $row["article_id"] ?></td>
+                        <td><?= $row["category_name"] ?></td>
                         <td><?= $row["title"] ?></td>
                         <td><?= $row["abstract"] ?></td>
                         <td><?= $row["published_date"] ?></td>
                         <td><?= $row["created_date"] ?></td>
-                        <td><a href="article.php?id=<?= $row["id"] ?>" class="btn btn-warning">顯示</a></td>
-                        <td><a href="article-edit.php?id=<?= $row["id"] ?>" class="btn btn-secondary">編輯</a></td>
+                        <td><a href="article.php?id=<?= $row["article_id"] ?>" class="btn btn-warning">顯示</a></td>
+                        <td><a href="article-edit.php?id=<?= $row["article_id"] ?>" class="btn btn-secondary">編輯</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -183,8 +196,8 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
             <ul class="pagination">
                 <?php for ($i = 1; $i <= $totalPage; $i++) : ?>
                     <li class="page-item <?php if ($i == $page) echo "active"; ?>">
-                        <a class="page-link" href="article-list.php?page=<?= $i ?>&type=<?= $type ?>&category=<?= $category ?>"><?= $i ?></a>
-                    </li>
+    <a class="page-link" href="article-list.php?page=<?= $i ?>&type=<?= $type ?>&category=<?= isset($_GET["category"]) ? $_GET["category"] : -1 ?>"><?= $i ?></a>
+</li>
                 <?php endfor; ?>
             </ul>
         </nav>

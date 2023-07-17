@@ -40,8 +40,7 @@ $resultCate = $conn->query($sql);
 $subcategory_count = $resultCate->num_rows;
 $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
 
-var_dump($cateSbRows);
-
+//var_dump($cateRows);
 
 ?>
 
@@ -57,13 +56,14 @@ var_dump($cateSbRows);
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
 </head>
 
 <body>
-<div class="container">
-    <div class="py-2">
-    <a class="btn btn-info mx-3" href="category.php"> 回類別列表</a>
+ 
+  <div class="container " style="height: 80%">
+     <div class="container">
+    <div class="py-2 mt-4">
+    <a class="btn btn-primary mx-3" href="category.php"> 回類別列表</a>
     </div>
 </div>
     <div class="container">
@@ -74,7 +74,7 @@ var_dump($cateSbRows);
           <input type="text" class="form-control" placeholder="搜尋子類別" name="name">
         </div>
         <div class="col-auto">
-          <button class="btn btn-info">搜尋</button>
+          <button class="btn btn-primary">搜尋</button>
         </div>
         </div>
         </form>
@@ -101,7 +101,6 @@ var_dump($cateSbRows);
             <th scope="row"><?=$subCATE["subcategory_id"]?></th>
             <td><?=$subCATE["subcategory_name"]?></td>
             <td>
-            <!-- <?=$subCATE["valid"]?> -->
               <?php if($subCATE["valid"] == "1"){
                 echo" 顯示";
               }elseif($subCATE["valid"] == "0"){
@@ -119,6 +118,7 @@ var_dump($cateSbRows);
       </table>
     </div>
     
+    </div>
     </div>
 
 

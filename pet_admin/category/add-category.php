@@ -6,7 +6,7 @@ $sqlCategory = "SELECT * FROM category ";
 $resultCategory = $conn->query($sqlCategory);
 $cateMainRows = $resultCategory->fetch_all(MYSQLI_ASSOC);
 
-var_dump($cateMainRows);
+//var_dump($cateMainRows);
 ?>
 
 <!doctype html>
@@ -21,19 +21,21 @@ var_dump($cateMainRows);
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    
 
 </head>
 
 <body>
+    <div class="container"></div>
 
-
-    <div class="container  d-flex flex-column justify-content-center align-items-center my-5">
-        <div class="col-8 mb-3">
-            <a class="btn btn-info" href="category.php">回類別頁面</a>
+    <div class="container">
+    <div class="col-8 m-auto p-0">
+            <a class="btn btn-primary" href="category.php">回類別頁面</a>
         </div>
-        <div class="card col-8">
-            <div class="card-header text-center">
+    </div>
+    <div class="container " style="height: 70%">
+    <div class="d-flex flex-column justify-content-center align-items-center mb-5">
+        <div class="card col-8 p-0">
+            <div class="card-header text-center ">
                 新增
             </div>
             <div class="card-body">
@@ -48,26 +50,24 @@ var_dump($cateMainRows);
                     <div class="form-group mb-2">
                         <label for="exampleFormControlSelect1">主類別</label>
                         <select class="form-select" aria-label="Default select example" name="maincategory">
-                            <!-- <option selected>請選擇</option> -->
-                            <?php foreach($cateMainRows as $mainCATE): ?>
-                            <option value="<?=$mainCATE["category_id"] ?>">
-                               <?=$mainCATE["category_name"] ?>
-                            </option>
+                            <?php foreach ($cateMainRows as $mainCATE) : ?>
+                                <option value="<?= $mainCATE["category_id"] ?>">
+                                    <?= $mainCATE["category_name"] ?>
+                                </option>
                             <?php endforeach; ?>
-                           
+
                         </select>
                     </div>
-                    <button class="btn btn-secondary" type="submit"> 送出</button>
+                    <button class="btn btn-outline-primary" type="submit"> 送出</button>
                 </form>
 
 
             </div>
         </div>
-
-
-
     </div>
-
+    </div>
+    <div class="container"></div>
+    <div class="container"></div>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>

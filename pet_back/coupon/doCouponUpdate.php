@@ -12,7 +12,7 @@ $level=$_POST["level"];
 
 
 
-require_once("./db_connect1.php");
+require_once("db_connect1.php");
 
 $sql="UPDATE coupon SET coupon_id='$coupon_id',coupon_code='$coupon_code',discount='$discount',start_date='$start_date',end_date='$end_date',discount_type='$discount_type',discount_amount='$discount_amount',usage_limit='$usage_limit',level='$level' WHERE coupon_id=$coupon_id";
 

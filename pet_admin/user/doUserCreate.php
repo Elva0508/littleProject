@@ -3,7 +3,7 @@ if(!isset($_POST["name"])){
     die ("請依正常管道到此頁");
 }
 
-require_once("../db_connect1.php");//檢查連線
+require_once("db_connect1.php");//檢查連線
 
 
 $name=$_POST["name"];

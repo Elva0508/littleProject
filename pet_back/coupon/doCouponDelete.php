@@ -6,7 +6,7 @@ if(!isset($_GET["coupon_id"])){
 // var_dump($_GET["coupon_id"]);
 
 
-require_once("./db_connect1.php");
+require_once("db_connect1.php");
 
 
 $coupon_id=$_GET["coupon_id"];

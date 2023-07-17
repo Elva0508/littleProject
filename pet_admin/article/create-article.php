@@ -19,7 +19,7 @@ $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
   <!-- Bootstrap CSS v5.2.1 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  
+
   <script src="https://cdn.ckeditor.com/ckeditor5/38.1.1/super-build/ckeditor.js"></script>
 
 
@@ -32,7 +32,16 @@ $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
     </div>
     <h2 class="py-2">新增文章</h2>
     <form action="doArticleCreate.php" method="post" enctype="multipart/form-data">
-      <div class="btn-group">
+      <div class="mb-2">
+        <label for="">選取文章類別</label>
+        <select name="category" class="form-select">
+          <option value="">請選取文章類別</option>
+          <?php foreach ($cateRows as $category) : ?>
+            <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <!-- <div class="btn-group">
         <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
           請選取文章類別
         </button>
@@ -42,7 +51,7 @@ $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
             <li><a class="dropdown-item" href="#" data-category="<?= $category["id"] ?>"><?= $category["name"] ?></a></li>
           <?php endforeach; ?>
         </ul>
-      </div>
+      </div> -->
       <div class="mb-2">
         <label for="">選取圖片</label>
         <input type="file" name="image" class="form-control" required>
@@ -63,20 +72,14 @@ $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
     </form>
   </div>
 
-
-
-
-
-
-
-  <?php include("js.php") ?>
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var dropdownToggle = document.querySelector(".dropdown-toggle");
-      var dropdownMenu = document.querySelector(".dropdown-menu");
+    var dropdownToggle = document.querySelector(".dropdown-toggle");
+    var dropdownMenu = document.querySelector(".dropdown-menu");
 
+    if (dropdownToggle && dropdownMenu) {
       dropdownMenu.addEventListener("click", function(e) {
         e.preventDefault();
+        console.log("點擊事件觸發了！");
         var selectedOption = e.target;
 
         var categoryName = selectedOption.textContent;
@@ -86,9 +89,9 @@ $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
         var categoryID = selectedOption.dataset.category;
         document.querySelector('input[name="category"]').value = categoryID;
       });
-    });
+    }
   </script>
-    <script>
+  <script>
     CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
 
       toolbar: {

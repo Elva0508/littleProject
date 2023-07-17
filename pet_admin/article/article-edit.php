@@ -1,6 +1,6 @@
 <?php
 if (!isset($_GET["id"])) {
-    header("location: ./404.php");
+    header("location:404.php");
 }
 $id = $_GET["id"];
 
@@ -14,6 +14,9 @@ WHERE article_id = '$id'
 ORDER BY id DESC";
 $resultImages = $conn->query($sqlImages);
 $articleImages = $resultImages->fetch_assoc();
+
+$newImageUploaded = isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] !== '';
+?>
 ?>
 
 <!doctype html>
@@ -37,6 +40,7 @@ $articleImages = $resultImages->fetch_assoc();
             height: 500px;
         }
     </style>
+    
 </head>
 
 <body>
@@ -75,8 +79,10 @@ $articleImages = $resultImages->fetch_assoc();
                 <tr>
                     <th>文章首圖</th>
                     <td>
+                    <?php if ($articleImages && !$newImageUploaded) : ?>
                         <img src="article_images/<?= $articleImages["img"] ?>" alt="">
-                        <input type="file" name="image" class="form-control" required>
+                    <?php endif; ?>
+                    <input type="file" name="image" class="form-control" <?= $newImageUploaded ? 'required' : '' ?>>
                     </td>
                 </tr>
                 <tr>

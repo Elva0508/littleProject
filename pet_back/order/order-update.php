@@ -29,6 +29,7 @@ $row = $result->fetch_assoc();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+
 </head>
 
 <body>
@@ -98,7 +99,7 @@ $row = $result->fetch_assoc();
 
             <div class="py-2 d-flex justify-content-end">
                 <?php if ($row["status_id"] == 1) : ?>
-                    <button class="btn btn-info mx-2" type="submit" name="action" value="ship">出貨</button>
+                    <button class="btn btn-warning mx-2" type="submit" name="action" value="ship">出貨</button>
                     <button class="btn btn-danger mx-2" type="submit" name="action" value="cancel">取消訂單</button>
                 <?php elseif ($row["status_id"] == 2 || $row["status_id"] == 3) : ?>
                     <button class="btn btn-danger mx-2" type="submit"   name="action" value="cancel" >取消訂單</button>

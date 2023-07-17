@@ -37,7 +37,7 @@ $articleImages = $resultImages->fetch_assoc();
         <div class="nav py-4">
             <a class="btn btn-warning" href="article-list.php">回文章列表</a>
         </div>
-        <h1><?= $article["title"] ?>"></h1>
+        <h1><?= $article["title"] ?></h1>
         <figure>
             <img src="article_images/<?= $articleImages["img"] ?>" alt="">
         </figure>
