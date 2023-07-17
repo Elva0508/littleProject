@@ -3,7 +3,7 @@ if (!isset($_POST["title"])) {
     die("請依正常管道到此頁");
 }
 
-require_once("../db_connect.php");
+require_once("db_connect.php");
 
 $title = $_POST["title"];
 $abstract = $_POST["abstract"];
@@ -24,7 +24,7 @@ if ($conn->query($sql) === TRUE) {
         $image_tmp = $_FILES["image"]["tmp_name"];
 
         // 移動上傳的文件到目的地
-        move_uploaded_file($image_tmp, "../article_images/" . $image);
+        move_uploaded_file($image_tmp, "article_images/" . $image);
 
         // 插入圖片檔名到 article_images 資料表
         $sqlImage = "INSERT INTO article_images (img, article_id) VALUES ('$image', '$latestId')";
