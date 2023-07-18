@@ -125,11 +125,11 @@ if ($infoNum == 20) {
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <div class="d-flex justify-content-center mb-3">
-                <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex justify-content-center">
+                <div class="d-flex align-items-center justify-content-between mx-4">
                   <span>顯示</span>
                   <form action="admin-vendors.php" method="GET" onchange="submit()">
-                    <select class="selectInfo form-select text-center border border-secondary rounded mx-2" aria-label="Default select example" name="infoNum">
+                    <select class="selectInfo form-select text-center border border-secondary rounded mx-2" aria-label="Default select example" name="infoNum" style="width: 80%;">
                       <option <?php if ($infoNum == 5) echo "selected='selected'" ?> value="5">5</option>
                       <option <?php if ($infoNum == 20) echo "selected='selected'" ?>value="20">20</option>
                       <option <?php if ($infoNum == 50) echo "selected='selected'" ?> value="50">50</option>
@@ -180,13 +180,13 @@ if ($infoNum == 20) {
                   <input type="hidden" name="infoNum" value="<?php echo $infoNum; ?>">
                 </form>
 
-                <form action="admin-vendors.php" class="searchForm form-inline offset-6" method="GET">
+                <form action="admin-vendors.php" class="searchForm form-inline offset-4" method="GET">
                   <?php if (isset($sortNum)) { ?><input type="hidden" name="sortNum" value="<?php echo $sortNum; ?>"><?php } ?>
                   <?php if (isset($infoNum)) { ?><input type="hidden" name="infoNum" value="<?php echo $infoNum; ?>"><?php } ?>
                   <input class=" form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
                   <button class="searchBtn btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
-                <button type="button" class="resetBtn btn btn-primary d-none" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                <button type="button" class="resetBtn btn  btn-primary d-none h-75 ms-1">
                   重置
                 </button>
 
@@ -226,7 +226,7 @@ if ($infoNum == 20) {
                         <tr>
                           <td onclick="toggleCheckbox(this)"><input type="checkbox" name="checkbox[]" value="<?php echo $row["vendor_id"]; ?>" class="checkBox"></td>
                           <td><?php echo $row["vendor_id"]; ?></td>
-                          <td><img src="./vendorLogo/<?php echo $row["logo_image"]; ?>" alt="logo"></td>
+                          <td><img src="./vendorLogo/<?php echo $row["logo_image"]; ?>" alt="logo" style="width: 100px; height:100px;"></td>
                           <td><?php echo $row["name"]; ?></td>
                           <td><?php echo $row["account"]; ?></td>
                           <td><?php echo $row["company_location"]; ?></td>
@@ -257,7 +257,7 @@ if ($infoNum == 20) {
                      <?php echo 1 ?>
                    <?php } else { ?>
                    <?php echo $page - 1; ?>
-                 <?php } ?>)">
+                 <?php } ?>); scrollToTop()">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                       </a>
@@ -267,7 +267,9 @@ if ($infoNum == 20) {
                     <?php $end = min($start + 4, $pages) ?>
                     <?php for ($i = $start; $i <= $end; $i++) { ?>
                       <li class="page-item">
-                        <a class="page-link" href="javascript:void(0)" onclick="loadPage(<?php echo $i; ?>)">
+                        <a class="page-link <?php if ($page == $i) {
+                                              echo "active";
+                                            } ?>" href="javascript:void(0)" onclick="loadPage(<?php echo $i; ?>); scrollToTop()">
                           <?php echo $i; ?>
                         </a>
                       </li>
@@ -280,7 +282,7 @@ if ($infoNum == 20) {
                      <?php echo $pages ?>
                    <?php } else { ?>
                        <?php echo $page + 1; ?>
-                     <?php } ?> )">
+                     <?php } ?> ); scrollToTop()">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                       </a>
@@ -411,6 +413,10 @@ if ($infoNum == 20) {
               checkbox.checked = allCheck.checked;
             });
 
+          }
+          //自動回到最上層
+          function scrollToTop() {
+            window.scrollTo(0, 0);
           }
         </script>
       </div>
