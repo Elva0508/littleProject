@@ -97,7 +97,7 @@ $vendorInfo = array(
             <h2 class="page-title col-12">歡迎廠商 <?php echo "<span class='name'>" . $vendorInfo['商家名稱'] . "</span>" ?>，登入後台管理系統</h2>
             <div class="circle">
                 <!-- 路徑有變的話需更改(改成加了nav的Homepage相對於vendorLogo資料夾的位置) -->
-                <img src="/vendorLogo/<?php echo  $row['logo_image'] ?>" alt="vendorImage" class="header-img">
+                <img src="./vendorLogo/<?php echo  $row['logo_image'] ?>" alt="vendorImage" class="header-img">
             </div>
             <div class="row mt-5 col-12 offset-2">
                 <div class="col-8">

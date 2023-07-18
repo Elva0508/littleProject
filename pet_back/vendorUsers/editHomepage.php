@@ -46,10 +46,13 @@ if (!empty($_POST)) {
             $image = $fileName; // 更新 image 值为新上传的文件名
         } else {
             echo "無法移動檔案至目標資料夾。";
+  
         }
-    } else {
-        echo "檔案上傳錯誤：" . $_FILES['image']['error'];
-    }
+    } 
+    // else {
+    //     echo "檔案上傳錯誤：" . $_FILES['image']['error'];
+
+    // }
 
     // 更新資料庫
     $stmt = $conn->prepare("UPDATE pet.vendor SET name = ?, account = ?, company_location = ?, logo_image = ?, updated_at = NOW() WHERE vendor_id = ?");
@@ -57,7 +60,8 @@ if (!empty($_POST)) {
     $stmt->execute();
     $stmt->close();
     $_SESSION['account'] = $account; //如果有變更帳號的話要更新帳號值，homepage才不會報錯
-    header("location: vendorHomepage.php");
+    // header("location: ../vendorHomepage.php");
+    echo "<script>window.location = 'vendorHomepage.php';</script>";
     exit;
 }
 
@@ -156,10 +160,10 @@ $vendorInfo = array(
                 <h2 class="page-title col-12">歡迎廠商 <?php echo "<span class='name'>" . $vendorInfo['商家名稱'] . "</span>" ?>，進入資料修改頁面</h2>
                 <div class="circle">
                     <!-- 路徑有變的話需更改(src位置要改成變動後的vendorLogo資料夾的位置) -->
-                    <img src="/vendorLogo/<?php echo  $row['logo_image'] ?>" alt="vendorImage" class="header-img">
+                    <img src="./vendorLogo/<?php echo  $row['logo_image'] ?>" alt="vendorImage" class="header-img">
                 </div>
                 <div class="fileInput col-12 d-flex justify-content-center">
-                    <input type="file" name="image" class="offset-2 mt-2">
+                <input type="file" name="image" class="offset-2 mt-2" onchange="previewFile()">
                 </div>
 
                 <div class="row mt-4 col-12 offset-2">
@@ -217,6 +221,20 @@ $vendorInfo = array(
                 return false;
             }
             document.querySelector(".editForm").submit();
+        }
+        //增加照片預覽功能
+        function previewFile() {
+            var preview = document.querySelector('.header-img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function() {
+                preview.src = reader.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
         }
     </script>
 </body>
