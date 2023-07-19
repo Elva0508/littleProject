@@ -64,6 +64,7 @@ $result = $conn->query($sql);
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
         th {
@@ -102,8 +103,8 @@ $result = $conn->query($sql);
 </head>
 
 <body>
-    <div class="container">
-        <h1>我的商品</h1>
+    <div class="container-fluid">
+    <h1 class="text-center my-3"><i class="fa-solid fa-paw"></i>&nbsp;我的商品&nbsp;<i class="fa-solid fa-paw"></i></h1>
         <form class="row g-3 p-2" action="product-search.php">
 
             <div class="col-12 mb-3 ">
@@ -369,11 +370,7 @@ $result = $conn->query($sql);
     </div>
 
     <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-    </script>
+    
 </body>
 
 </html>
