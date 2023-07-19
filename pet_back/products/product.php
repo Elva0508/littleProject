@@ -30,6 +30,7 @@ $row = $result->fetch_assoc();
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
     <style>
         .ratio {
             width: 250px;
@@ -40,6 +41,10 @@ $row = $result->fetch_assoc();
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        dialog {
+            padding: 55px 80px 55px 80px;
         }
     </style>
 
@@ -112,7 +117,36 @@ $row = $result->fetch_assoc();
         </table>
         <div class=" py-2">
             <a class="btn btn-info" href="product-edit.php? product_id=<?= $row["product_id"] ?>">編輯</a>
-            <a href="doProductDelete.php?product_id=<?= $row["product_id"] ?>" class="btn btn-danger ">刪除</a>
+            <!-- <a href="doProductDelete.php?product_id=<?= $row["product_id"] ?>" class="btn btn-danger ">刪除</a> -->
+
+            <a href="#" class="btn btn-danger" id="delete">刪除</a>
+
+            <dialog id="infoModal" d-flex text-align-center>
+                <p>確認刪除嗎？</p>
+                <button class="btn btn-info" id="cancel">取消</button>
+                <a href="doProductDelete.php?product_id=<?= $row["product_id"] ?>" class="btn btn-danger" id="confirm">確認</a>
+
+            </dialog>
+
+            <script>
+                let a = document.querySelector("#delete");
+                let infoModal = document.querySelector("#infoModal");
+                let confirmButton = document.querySelector("#confirm");
+                let cancelButton = document.querySelector("#cancel");
+
+                a.addEventListener("click", function() {
+                    infoModal.showModal();
+                });
+
+                cancelButton.addEventListener("click", function() {
+                    infoModal.close();
+                });
+
+                confirmButton.addEventListener("click", function() {
+                    // 在這裡執行確認刪除的相應操作
+                    // 可以使用 JavaScript 或發送到 doProductDelete.php 的請求來執行刪除
+                });
+            </script>
         </div>
 
     </div>
@@ -126,7 +160,7 @@ $row = $result->fetch_assoc();
 
 
     <!-- Bootstrap JavaScript Libraries -->
-  
+    
 </body>
 
 </html>

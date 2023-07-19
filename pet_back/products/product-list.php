@@ -41,10 +41,11 @@ if ($type == 1) {
 // $sql = "SELECT * FROM products WHERE product_id $orderBy  LIMIT $startItem,$perPage";
 // $result = $conn->query($sql);
 
-$sql = "SELECT products.*, category.category_name AS category_name, subcategory.subcategory_name AS subcategory_name
+$sql = "SELECT products.*, category.category_name AS category_name, subcategory.subcategory_name AS subcategory_name 
 FROM products
 JOIN category ON category.category_id = products.category_id
 JOIN subcategory ON subcategory.subcategory_id = products.subcategory_id
+
 WHERE products.product_id $orderBy
 LIMIT $startItem, $perPage";
 $result = $conn->query($sql);
@@ -64,6 +65,7 @@ $result = $conn->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
     <style>
         th {
             white-space: nowrap;
@@ -90,6 +92,10 @@ $result = $conn->query($sql);
         td {
             width: 5%;
             text-align: center;
+        }
+
+        dialog {
+            padding: 55px 80px 55px 80px;
         }
     </style>
 
@@ -313,7 +319,36 @@ $result = $conn->query($sql);
                         <td>
                             <a href="product.php?product_id=<?= $row["product_id"] ?>" class="btn btn-success mt-2">詳細</a>
                             <a href="product-edit.php?product_id=<?= $row["product_id"] ?>" class="btn btn-info ">編輯</a>
-                            <a href="doProductDelete.php?product_id=<?= $row["product_id"] ?>" class="btn btn-danger ">刪除</a>
+
+                            <!-- <a href="doProductDelete.php?product_id=<?= $row["product_id"] ?>" class="btn btn-danger ">刪除</a> -->
+
+                            <a href="#" class="btn btn-danger" id="delete">刪除</a>
+
+                            <dialog id="infoModal">
+                                <p>確認刪除嗎？</p>
+                                <button class="btn btn-info" id="cancel">取消</button>
+                                <a href="doProductDelete.php?product_id=<?= $row["product_id"] ?>" class="btn btn-danger" id="confirm">確認</a>
+                            </dialog>
+
+                            <script>
+                                let a = document.querySelector("#delete");
+                                let infoModal = document.querySelector("#infoModal");
+                                let confirmButton = document.querySelector("#confirm");
+                                let cancelButton = document.querySelector("#cancel");
+
+                                a.addEventListener("click", function() {
+                                    infoModal.showModal();
+                                });
+
+                                cancelButton.addEventListener("click", function() {
+                                    infoModal.close();
+                                });
+
+                                confirmButton.addEventListener("click", function() {
+                                    // 在這裡執行確認刪除的相應操作
+                                    // 可以使用 JavaScript 或發送到 doProductDelete.php 的請求來執行刪除
+                                });
+                            </script>
                         </td>
                     </tr>
                 <?php endwhile; ?>
@@ -335,7 +370,7 @@ $result = $conn->query($sql);
     </div>
 
     <!-- Bootstrap JavaScript Libraries -->
-   
+    
 </body>
 
 </html>

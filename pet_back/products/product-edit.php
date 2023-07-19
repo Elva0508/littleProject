@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 
 if (!isset($_GET["product_id"])) {
     die("資料不存在");
@@ -62,7 +62,7 @@ $conn->close();
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <h1>商品編輯</h1>
         <div class="py-2">
             <a class="btn btn-primary" href="product.php?product_id=<?= $row["product_id"] ?>">回我的商品</a>
@@ -78,10 +78,35 @@ $conn->close();
                 <tr>
                     <th>商品圖片</th>
                     <td>
-                        <figure class="ratio ratio-1x1">
+                        <!-- <figure class="ratio ratio-1x1">
                             <img class="object-fit-cover" src="productimages/<?= $row["image"] ?>" alt="">
                         </figure>
-                        <input class="form-control" type="file" name="image">
+                        <input class="form-control" type="file" name="image"> -->
+
+                        <!-- 即時顯示圖片 -->
+
+                        <form runat="server">
+                            <figure class="ratio ratio-1x1">
+                                <img class="object-fit-cover" id="previewImage" src="productimages/<?= $row["image"] ?>" alt="">
+                            </figure>
+                            <input class="form-control" type="file" name="image" id="imgInp">
+                        </form>
+
+                        <script>
+                            const imgInp = document.getElementById('imgInp');
+                            const previewImage = document.getElementById('previewImage');
+
+                            imgInp.onchange = evt => {
+                                const [file] = imgInp.files;
+                                if (file) {
+                                    const reader = new FileReader();
+                                    reader.onload = function(e) {
+                                        previewImage.src = e.target.result;
+                                    };
+                                    reader.readAsDataURL(file);
+                                }
+                            };
+                        </script>
                     </td>
                 </tr>
                 <tr>
@@ -164,4 +189,4 @@ $conn->close();
     </div>
 
     <!-- Bootstrap JavaScript Libraries -->
-  
+    

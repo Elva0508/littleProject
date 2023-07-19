@@ -21,10 +21,23 @@ $resultSubcategory = $conn->query($sqlSubcategory);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+    <style>
+        .ratio {
+            width: 250px;
+            height: 250px;
+        }
+
+        .object-fit-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <h1>新增商品</h1>
         <?php echo date('Y-m-d H:i:s') ?>
         <form class="row g-3" action="doProductCreate.php" method="post" enctype="multipart/form-data">
@@ -74,24 +87,48 @@ $resultSubcategory = $conn->query($sqlSubcategory);
 
             <div class="col-12">
                 <label for="formFile" class="form-label">上傳圖片</label>
-                <input class="form-control" type="file" name="image" required>
+                <figure class="ratio ratio-1x1">
+                    <img class="object-fit-cover" id="previewImage" src="productimages/upload2.png" alt="">
+                </figure>
+                <input class="form-control" type="file" name="image" id="imgInp">
             </div>
 
-            <div class="col-12">
+            <div class="col-12 mt-3">
                 <label for="productDecsription" class="form-label">商品描述</label>
                 <textarea class="form-control" rows="3" name="description"></textarea>
             </div>
 
-            <div class="col-12">
-                <button type="submit" class="btn btn-info ">送出</button>
+            <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-info">送出</button>
                 <button type="reset" class="btn btn-danger">重設</button>
                 <a class="btn btn-primary" href="product-list.php">回商品列表</a>
             </div>
         </form>
     </div>
 
+    <script>
+        const imgInp = document.getElementById('imgInp');
+        const previewImage = document.getElementById('previewImage');
+        const resetButton = document.querySelector('button[type="reset"]');
+
+        imgInp.onchange = evt => {
+            const [file] = imgInp.files;
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+        resetButton.addEventListener('click', function() {
+            previewImage.src = 'productimages/upload2.png';
+        });
+    </script>
+
+
     <!-- Bootstrap JavaScript Libraries -->
-    
+
 </body>
 
 </html>
