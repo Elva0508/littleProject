@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($_POST["order_id"])) {
-    header("location: ../404.php");
+    header("location: ./404.php");
 }
 $order_id = $_POST["order_id"];
 
@@ -49,7 +49,7 @@ exit;
 // $status_id = $_POST["status_id"];
 // $action = $_POST["action"];
 
-// require_once("../db_connect.php");
+// require_once("./db_connect.php");
 
 //失敗的法一
 // if ($status_id === 1) {
