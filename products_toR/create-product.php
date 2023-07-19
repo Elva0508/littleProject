@@ -39,7 +39,6 @@ $resultSubcategory = $conn->query($sqlSubcategory);
 <body>
     <div class="container-fluid">
     <h1 class="text-center my-3"><i class="fa-solid fa-paw"></i>&nbsp;新增商品&nbsp;<i class="fa-solid fa-paw"></i></h1>
-        <h1>新增商品</h1>
         <?php echo date('Y-m-d H:i:s') ?>
         <form class="row g-3" action="doProductCreate.php" method="post" enctype="multipart/form-data">
             <div class="col-12">
